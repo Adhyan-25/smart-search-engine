@@ -1,0 +1,48 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node scripts/seed.js",
+    "test": "jest tests/unit",
+    "test:integration": "jest tests/integration --runInBand",
+    "test:all": "jest --runInBand",
+    "bench:trie": "node benchmarks/trieVsLinear.js",
+    "bench:lru": "node benchmarks/lruVsMap.js",
+    "bench:bloom": "node benchmarks/bloomFilter.js",
+    "bench:hashing": "node benchmarks/consistentHashing.js",
+    "bench:pagination": "node benchmarks/paginationBenchmark.js",
+    "bench:debounce": "node benchmarks/debounceBenchmark.js",
+    "bench:async": "node benchmarks/syncVsQueue.js",
+    "bench:all": "npm run bench:trie && npm run bench:lru && npm run bench:bloom && npm run bench:hashing && npm run bench:debounce && npm run bench:async",
+    "loadtest": "node scripts/loadtest.js",
+    "lint": "eslint src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^6.0.9",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "ioredis": "^6.0.0",
+    "joi": "^18.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.9.1",
+    "morgan": "^1.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^10.8.1",
+    "jest": "^30.4.2",
+    "mongodb-memory-server": "^11.2.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
+  }
+}

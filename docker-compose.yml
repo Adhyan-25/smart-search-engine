@@ -1,0 +1,65 @@
+# Local infrastructure for the Smart Search Engine.
+#
+# Run: docker compose up --build
+#
+# Services:
+#   mongo        - primary database
+#   redis        - cache / rate-limit / job-queue backend
+#   node1, node2 - two backend instances (demonstrates section 26)
+#   nginx        - load balancer in front of node1/node2 (section 27)
+#   client       - Vite dev server for the React frontend
+#
+# NOTE: this compose file was written and reviewed for correctness but could
+# not be executed inside the chat sandbox this project was built in, because
+# that sandbox has no Docker daemon and blocks the network egress Docker
+# would need (MongoDB image pulls, etc). See docs/IMPLEMENTATION_STATUS.md.
+
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    ports: ["27017:27017"]
+    volumes: ["mongo_data:/data/db"]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  node1:
+    build: ./server
+    environment:
+      - PORT=4000
+      - INSTANCE_ID=node-1
+      - MONGO_URI=mongodb://mongo:27017/smart_search
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on: [mongo, redis]
+    ports: ["4000:4000"]
+
+  node2:
+    build: ./server
+    environment:
+      - PORT=4001
+      - INSTANCE_ID=node-2
+      - MONGO_URI=mongodb://mongo:27017/smart_search
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on: [mongo, redis]
+    ports: ["4001:4001"]
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./infra/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports: ["8080:8080"]
+    depends_on: [node1, node2]
+
+  client:
+    build: ./client
+    environment:
+      - VITE_API_PROXY_TARGET=http://node1:4000
+    ports: ["5173:5173"]
+
+volumes:
+  mongo_data:
