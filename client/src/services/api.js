@@ -44,3 +44,7 @@ export function fetchHealth() {
 export function login(credentials) {
   return apiPost('/auth/login', credentials);
 }
+
+export function googleAuth(idToken) {
+  return apiPost('/auth/google', { idToken });
+}

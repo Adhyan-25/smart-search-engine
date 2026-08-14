@@ -9,6 +9,49 @@ All error responses share this shape:
 
 ---
 
+## Auth endpoints
+
+### POST /api/v1/auth/register
+
+Creates a password-based account.
+
+**Body**
+```json
+{ "email": "you@example.com", "password": "min-8-characters" }
+```
+
+### POST /api/v1/auth/login
+
+Logs in a password-based account.
+
+**Body**
+```json
+{ "email": "you@example.com", "password": "your-password" }
+```
+
+### POST /api/v1/auth/google
+
+Signs up or logs in using a Google ID token from Google Identity Services.
+
+**Body**
+```json
+{ "idToken": "google-id-token" }
+```
+
+### GET /api/v1/auth/me
+
+Returns the authenticated user from a Bearer token.
+
+**Shared auth response shape (200/201)**
+```json
+{
+  "token": "jwt-token",
+  "user": { "id": "mongo-id", "email": "you@example.com", "role": "user" }
+}
+```
+
+---
+
 ## GET /api/v1/search
 
 Full-text product search with filtering, sorting, and pagination.

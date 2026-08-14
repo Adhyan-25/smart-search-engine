@@ -31,6 +31,7 @@ services:
     environment:
       - PORT=4000
       - INSTANCE_ID=node-1
+        - GOOGLE_CLIENT_ID=replace-with-your-google-client-id
       - MONGO_URI=mongodb://mongo:27017/smart_search
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -42,6 +43,7 @@ services:
     environment:
       - PORT=4001
       - INSTANCE_ID=node-2
+      - GOOGLE_CLIENT_ID=replace-with-your-google-client-id
       - MONGO_URI=mongodb://mongo:27017/smart_search
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -59,6 +61,7 @@ services:
     build: ./client
     environment:
       - VITE_API_PROXY_TARGET=http://node1:4000
+      - VITE_GOOGLE_CLIENT_ID=replace-with-your-google-client-id
     ports: ["5173:5173"]
 
 volumes:

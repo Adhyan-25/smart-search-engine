@@ -132,6 +132,7 @@ You need MongoDB and Redis installed directly.
 cd Documents/smart-search/server
 npm install
 cp .env.example .env
+# add GOOGLE_CLIENT_ID=your-google-oauth-client-id to .env if you want Google signup/login
 npm run seed
 npm run dev
 ```
@@ -142,6 +143,7 @@ Open a **new terminal**:
 ```bash
 cd Documents/smart-search/client
 npm install
+# create a .env file with: VITE_GOOGLE_CLIENT_ID=your-google-oauth-client-id
 npm run dev
 ```
 It'll print a URL, usually **http://localhost:5173** — open that in your browser.

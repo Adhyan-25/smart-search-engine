@@ -63,7 +63,7 @@ export default function App() {
               className={`auth-trigger ${isLoginOpen ? 'active' : ''}`}
               onClick={() => setIsLoginOpen(true)}
             >
-              Sign in
+              Sign in / Sign up
             </button>
           )}
           <ThemeToggle theme={theme} onToggle={toggleTheme} />

@@ -79,6 +79,10 @@ cp .env.example .env
 # edit .env if your Mongo/Redis aren't on localhost defaults
 ```
 
+For Google OAuth signup/login, set:
+- `GOOGLE_CLIENT_ID` in `server/.env`
+- `VITE_GOOGLE_CLIENT_ID` in `client/.env`
+
 ### Start infrastructure (Docker)
 ```bash
 docker compose up --build

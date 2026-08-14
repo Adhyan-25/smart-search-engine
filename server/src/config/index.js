@@ -44,6 +44,10 @@ const config = {
     secret: requireEnv('JWT_SECRET', 'dev-only-insecure-secret-change-me'),
     expiresIn: process.env.JWT_EXPIRES_IN || '2h',
   },
+
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+  },
 };
 
 function validateConfig() {
