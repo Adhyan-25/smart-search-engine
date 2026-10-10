@@ -1,0 +1,55 @@
+name: Smart Search Engine CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install backend dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Run backend unit tests
+        working-directory: server
+        env:
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 6379
+          NODE_ENV: test
+          JWT_SECRET: ci-only-test-secret-not-for-production
+          MONGO_URI: mongodb://127.0.0.1:27017/smart_search_test
+        run: npm test -- --runInBand
+
+      - name: Lint backend
+        working-directory: server
+        run: npm run lint
+
+      - name: Install frontend dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: client
+        run: npm run build
