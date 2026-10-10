@@ -1,4 +1,25 @@
+# Dependencies
 node_modules/
+
+# Environment secrets (keep example templates)
 .env
+.env.*
+!.env.example
+!**/.env.example
+
+# Build output and coverage
 dist/
+coverage/
+
+# Logs
 *.log
+logs/
+
+# Local database files and snapshots
+*.rdb
+dump.rdb
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
